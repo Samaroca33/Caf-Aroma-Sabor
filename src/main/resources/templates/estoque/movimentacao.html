@@ -1,380 +1,185 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Movimentação de Estoque - CafeAromaESabor</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Arial', sans-serif;
-            background-color: #f5f5f5;
-        }
-
-        header {
-            background-color: #8B4513;
-            color: white;
-            padding: 20px 0;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
-
-        header h1 {
-            font-size: 28px;
-            margin-bottom: 10px;
-        }
-
-        nav {
-            display: flex;
-            gap: 30px;
-            margin-top: 20px;
-            flex-wrap: wrap;
-        }
-
-        nav a {
-            color: white;
-            text-decoration: none;
-            font-weight: bold;
-            padding: 10px 15px;
-            border-radius: 5px;
-            transition: background-color 0.3s;
-        }
-
-        nav a:hover {
-            background-color: rgba(255, 255, 255, 0.2);
-        }
-
-        main {
-            padding: 40px 0;
-        }
-
-        .page-title {
-            background: white;
-            padding: 20px;
-            border-radius: 10px;
-            margin-bottom: 30px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-        }
-
-        .page-title h2 {
-            color: #8B4513;
-            font-size: 24px;
-        }
-
-        .content-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 30px;
-            margin-bottom: 30px;
-        }
-
-        @media (max-width: 900px) {
-            .content-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        .form-section {
-            background: white;
-            padding: 25px;
-            border-radius: 10px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-        }
-
-        .form-section h3 {
-            color: #8B4513;
-            margin-bottom: 20px;
-            font-size: 18px;
-            border-bottom: 2px solid #D2B48C;
-            padding-bottom: 10px;
-        }
-
-        .form-group {
-            margin-bottom: 15px;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 5px;
-            color: #333;
-            font-weight: bold;
-            font-size: 14px;
-        }
-
-        .form-group input,
-        .form-group select,
-        .form-group textarea {
-            width: 100%;
-            padding: 10px;
-            border: 2px solid #ddd;
-            border-radius: 5px;
-            font-size: 14px;
-            font-family: Arial, sans-serif;
-            transition: border-color 0.3s;
-        }
-
-        .form-group input:focus,
-        .form-group select:focus,
-        .form-group textarea:focus {
-            outline: none;
-            border-color: #8B4513;
-        }
-
-        .form-group textarea {
-            resize: vertical;
-            min-height: 80px;
-        }
-
-        .btn-submit {
-            width: 100%;
-            padding: 12px;
-            background-color: #28a745;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            font-size: 16px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: background-color 0.3s;
-            margin-top: 10px;
-        }
-
-        .btn-submit:hover {
-            background-color: #218838;
-        }
-
-        .btn-submit.saida {
-            background-color: #dc3545;
-        }
-
-        .btn-submit.saida:hover {
-            background-color: #c82333;
-        }
-
-        .history-section {
-            background: white;
-            padding: 25px;
-            border-radius: 10px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-        }
-
-        .history-section h3 {
-            color: #8B4513;
-            margin-bottom: 20px;
-            font-size: 18px;
-            border-bottom: 2px solid #D2B48C;
-            padding-bottom: 10px;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-
-        table thead {
-            background-color: #D2B48C;
-            color: #333;
-            font-weight: bold;
-        }
-
-        table td, table th {
-            padding: 12px;
-            text-align: left;
-            border-bottom: 1px solid #ddd;
-        }
-
-        table tbody tr:hover {
-            background-color: #f9f9f9;
-        }
-
-        .badge {
-            display: inline-block;
-            padding: 5px 10px;
-            border-radius: 3px;
-            font-size: 12px;
-            font-weight: bold;
-        }
-
-        .badge-entrada {
-            background-color: #d4edda;
-            color: #155724;
-        }
-
-        .badge-saida {
-            background-color: #f8d7da;
-            color: #721c24;
-        }
-
-        .empty-state {
-            text-align: center;
-            color: #999;
-            padding: 20px;
-        }
-
-        .success-message {
-            background-color: #d4edda;
-            color: #155724;
-            padding: 12px;
-            border-radius: 5px;
-            margin-bottom: 20px;
-            border: 1px solid #c3e6cb;
-        }
-
-        .error-message {
-            background-color: #f8d7da;
-            color: #721c24;
-            padding: 12px;
-            border-radius: 5px;
-            margin-bottom: 20px;
-            border: 1px solid #f5c6cb;
-        }
-
-        footer {
-            background-color: #333;
-            color: white;
-            text-align: center;
-            padding: 20px;
-            margin-top: 50px;
-        }
-    </style>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Café Aroma & Sabor — Estoque</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com"/>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+    <link rel="stylesheet" th:href="@{/css/almoxarifado.css}"/>
 </head>
 <body>
-    <header>
-        <div class="container">
-            <h1>☕ CafeAromaESabor</h1>
-            <nav>
-                <a href="/home">Home</a>
-                <a href="/produto">Produtos</a>
-                <a href="/estoque">Estoque</a>
-                <a href="/logout">Sair</a>
-            </nav>
+
+<div id="page-app" class="page active" style="display:flex;">
+
+    <nav class="sidebar">
+        <div class="sidebar-brand">
+            <div class="s-bean"></div>
+            <h2>Aroma & Sabor</h2>
+            <span>Almoxarifado</span>
         </div>
-    </header>
+        <div class="sidebar-nav">
+            <div class="nav-section">Principal</div>
+            <a class="nav-link" th:href="@{/home}"><span class="nav-icon">⬡</span> Dashboard</a>
+            <div class="nav-section">Módulos</div>
+            <a class="nav-link" th:href="@{/produto}"><span class="nav-icon">⊞</span> Cadastro de Produto</a>
+            <a class="nav-link active" th:href="@{/estoque}"><span class="nav-icon">◫</span> Gestão de Estoque</a>
+        </div>
+        <div class="sidebar-footer">
+            <a class="nav-link" th:href="@{/logout}" style="color:rgba(245,237,224,.5);"><span class="nav-icon">↩</span> Sair</a>
+        </div>
+    </nav>
 
-    <main>
-        <div class="container">
-            <div class="page-title">
-                <h2>📋 Movimentação de Estoque</h2>
+    <div class="main-content">
+        <div class="topbar">
+            <div class="topbar-title">Gestão de Estoque</div>
+        </div>
+        <div class="content-area">
+
+            <!-- Feedback -->
+            <div th:if="${sucesso}" style="
+        background:rgba(45,122,79,.1); color:#2d7a4f;
+        border:1.5px solid rgba(45,122,79,.3);
+        border-radius:10px; padding:12px 16px;
+        font-size:.85rem; margin-bottom:18px;">
+                <span th:text="${sucesso}"></span>
+            </div>
+            <div th:if="${erro}" style="
+        background:rgba(184,50,50,.1); color:#b83232;
+        border:1.5px solid rgba(184,50,50,.3);
+        border-radius:10px; padding:12px 16px;
+        font-size:.85rem; margin-bottom:18px;">
+                <span th:text="${erro}"></span>
             </div>
 
-            <!-- Mensagens de Feedback -->
-            <div th:if="${sucesso}" class="success-message">
-                <p th:text="${sucesso}"></p>
-            </div>
+            <div class="estoque-layout">
 
-            <div th:if="${erro}" class="error-message">
-                <p th:text="${erro}"></p>
-            </div>
+                <!-- Coluna esquerda: tabela + log -->
+                <div>
+                    <div class="table-card" style="margin-bottom:24px;">
+                        <table th:if="${produtos != null and !produtos.empty}">
+                            <thead>
+                            <tr>
+                                <th>Produto</th>
+                                <th>Lote</th>
+                                <th>Qtd. Atual</th>
+                                <th>Mínimo</th>
+                                <th>Validade</th>
+                                <th>Status</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each="p : ${produtos}">
+                                <td><strong th:text="${p.nome}">—</strong></td>
+                                <td th:text="${p.lote}">—</td>
+                                <td th:text="${p.quantidadeAtual}">0</td>
+                                <td th:text="${p.estoqueMinimo}">0</td>
+                                <td th:text="${p.dataValidade != null ? #temporals.format(p.dataValidade,'dd/MM/yyyy') : '—'}">—</td>
+                                <td>
+                    <span th:if="${p.quantidadeAtual >= p.estoqueMinimo}">
+                      <span class="status-dot dot-ok"></span>OK
+                    </span>
+                                    <span th:if="${p.quantidadeAtual < p.estoqueMinimo}">
+                      <span class="status-dot dot-danger"></span>Crítico
+                    </span>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
 
-            <div th:if="${aviso}" class="success-message">
-                <p th:text="${aviso}"></p>
-            </div>
-
-            <!-- Grid com Formulários de Entrada e Saída -->
-            <div class="content-grid">
-                <!-- Formulário de Entrada -->
-                <div class="form-section">
-                    <h3>➕ Entrada de Estoque</h3>
-                    <form method="POST" action="/estoque/entrada">
-                        <div class="form-group">
-                            <label for="produtoEntrada">Produto:</label>
-                            <select id="produtoEntrada" name="produtoId" required>
-                                <option value="">Selecione um produto...</option>
-                                <option th:each="p : ${produtos}" th:value="${p.id}" th:text="${p.nome}">Produto</option>
-                            </select>
+                    <!-- Log de Rastreabilidade com dados reais -->
+                    <div class="log-card">
+                        <div class="log-header"><h4>📋 Log de Rastreabilidade</h4></div>
+                        <div class="log-body">
+                            <div th:each="mov : ${movimentacoes}" class="log-line">
+                <span class="log-time"
+                      th:text="${#temporals.format(mov.dataHora,'dd/MM HH:mm')}">00/00</span>
+                                <span class="log-user" th:text="${mov.usuario.nome}">—</span>
+                                <span class="log-event"
+                                      th:text="${mov.tipo.name() + ' ' + mov.quantidade + ' ' + mov.produto.nome}">—</span>
+                                <span class="log-lote" th:text="'[' + mov.produto.lote + ']'">—</span>
+                            </div>
+                            <div th:if="${movimentacoes == null or movimentacoes.empty}"
+                                 style="color:rgba(245,237,224,.35); padding:8px 0;">
+                                Nenhuma movimentação registrada.
+                            </div>
                         </div>
-
-                        <div class="form-group">
-                            <label for="quantidadeEntrada">Quantidade:</label>
-                            <input type="number" id="quantidadeEntrada" name="quantidade" required min="1" placeholder="0">
-                        </div>
-
-                        <div class="form-group">
-                            <label for="motivoEntrada">Motivo:</label>
-                            <textarea id="motivoEntrada" name="motivo" required placeholder="Ex: Compra ao fornecedor..."></textarea>
-                        </div>
-
-                        <button type="submit" class="btn-submit">✅ Registrar Entrada</button>
-                    </form>
+                    </div>
                 </div>
 
-                <!-- Formulário de Saída -->
-                <div class="form-section">
-                    <h3>➖ Saída de Estoque</h3>
-                    <form method="POST" action="/estoque/saida">
-                        <div class="form-group">
-                            <label for="produtoSaida">Produto:</label>
-                            <select id="produtoSaida" name="produtoId" required>
-                                <option value="">Selecione um produto...</option>
-                                <option th:each="p : ${produtos}" th:value="${p.id}" th:text="${p.nome}">Produto</option>
-                            </select>
+                <!-- Coluna direita: painel de movimentação -->
+                <div class="movimento-card">
+                    <div class="card-header"><h3>Registrar Movimentação</h3></div>
+                    <div class="card-body">
+
+                        <!-- Entrada -->
+                        <div style="margin-bottom:24px;">
+                            <div style="font-size:.75rem;font-weight:700;color:var(--green-ok);
+                          text-transform:uppercase;letter-spacing:.08em;margin-bottom:12px;">
+                                ⬆ Entrada de Estoque
+                            </div>
+                            <form method="POST" th:action="@{/estoque/entrada}">
+                                <div class="form-group">
+                                    <label>Produto *</label>
+                                    <select name="produtoId" required>
+                                        <option value="">Selecione…</option>
+                                        <option th:each="p : ${produtos}"
+                                                th:value="${p.id}"
+                                                th:text="${p.nome}">—</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label>Quantidade *</label>
+                                    <input type="number" name="quantidade" placeholder="0" min="1" required/>
+                                </div>
+                                <div class="form-group">
+                                    <label>Motivo *</label>
+                                    <textarea name="motivo" rows="2" placeholder="Ex.: Compra ao fornecedor…" required></textarea>
+                                </div>
+                                <button type="submit" class="btn btn-primary btn-full"
+                                        style="background:var(--green-ok);">Confirmar Entrada</button>
+                            </form>
                         </div>
 
-                        <div class="form-group">
-                            <label for="quantidadeSaida">Quantidade:</label>
-                            <input type="number" id="quantidadeSaida" name="quantidade" required min="1" placeholder="0">
+                        <hr style="border:none;border-top:1.5px solid var(--border);margin:20px 0;"/>
+
+                        <!-- Saída -->
+                        <div>
+                            <div style="font-size:.75rem;font-weight:700;color:var(--red-alert);
+                          text-transform:uppercase;letter-spacing:.08em;margin-bottom:12px;">
+                                ⬇ Saída de Estoque
+                            </div>
+                            <form method="POST" th:action="@{/estoque/saida}">
+                                <div class="form-group">
+                                    <label>Produto *</label>
+                                    <select name="produtoId" required>
+                                        <option value="">Selecione…</option>
+                                        <option th:each="p : ${produtos}"
+                                                th:value="${p.id}"
+                                                th:text="${p.nome}">—</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label>Quantidade *</label>
+                                    <input type="number" name="quantidade" placeholder="0" min="1" required/>
+                                </div>
+                                <div class="form-group">
+                                    <label>Motivo *</label>
+                                    <textarea name="motivo" rows="2" placeholder="Ex.: Venda, avaria…" required></textarea>
+                                </div>
+                                <button type="submit" class="btn btn-primary btn-full"
+                                        style="background:var(--red-alert);">Confirmar Saída</button>
+                            </form>
                         </div>
 
-                        <div class="form-group">
-                            <label for="motivoSaida">Motivo:</label>
-                            <textarea id="motivoSaida" name="motivo" required placeholder="Ex: Venda, descarte..."></textarea>
-                        </div>
-
-                        <button type="submit" class="btn-submit saida">❌ Registrar Saída</button>
-                    </form>
+                    </div>
                 </div>
-            </div>
 
-            <!-- Histórico de Movimentações -->
-            <div class="history-section">
-                <h3>📜 Histórico de Movimentações</h3>
-
-                <table th:if="${movimentacoes != null and movimentacoes.size() > 0}">
-                    <thead>
-                        <tr>
-                            <th>Data/Hora</th>
-                            <th>Produto</th>
-                            <th>Tipo</th>
-                            <th>Quantidade</th>
-                            <th>Motivo</th>
-                            <th>Usuário</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr th:each="mov : ${movimentacoes}">
-                            <td th:text="${#dates.format(mov.dataHora, 'dd/MM/yyyy HH:mm')}">01/01/2025 10:30</td>
-                            <td th:text="${mov.produto.nome}">Café Premium</td>
-                            <td>
-                                <span th:if="${mov.tipo.name() == 'ENTRADA'}" class="badge badge-entrada">Entrada</span>
-                                <span th:if="${mov.tipo.name() == 'SAIDA'}" class="badge badge-saida">Saída</span>
-                            </td>
-                            <td th:text="${mov.quantidade}">50</td>
-                            <td th:text="${mov.motivo}">Compra ao fornecedor XYZ</td>
-                            <td th:text="${mov.usuario.nome}">João Silva</td>
-                        </tr>
-                    </tbody>
-                </table>
-
-                <div th:if="${movimentacoes == null or movimentacoes.size() == 0}" class="empty-state">
-                    <p>Nenhuma movimentação registrada ainda.</p>
-                </div>
             </div>
         </div>
-    </main>
+    </div>
+</div>
 
-    <footer>
-        <p>&copy; 2026 CafeAromaESabor - Sistema de Gestão de Estoque | Desenvolvido com ☕ por SENAI</p>
-    </footer>
 </body>
 </html>
-

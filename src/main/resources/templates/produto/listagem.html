@@ -1,256 +1,101 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Produtos - CafeAromaESabor</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Arial', sans-serif;
-            background-color: #f5f5f5;
-        }
-
-        header {
-            background-color: #8B4513;
-            color: white;
-            padding: 20px 0;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
-
-        header h1 {
-            font-size: 28px;
-            margin-bottom: 10px;
-        }
-
-        nav {
-            display: flex;
-            gap: 30px;
-            margin-top: 20px;
-            flex-wrap: wrap;
-        }
-
-        nav a {
-            color: white;
-            text-decoration: none;
-            font-weight: bold;
-            padding: 10px 15px;
-            border-radius: 5px;
-            transition: background-color 0.3s;
-        }
-
-        nav a:hover {
-            background-color: rgba(255, 255, 255, 0.2);
-        }
-
-        main {
-            padding: 40px 0;
-        }
-
-        .page-title {
-            background: white;
-            padding: 20px;
-            border-radius: 10px;
-            margin-bottom: 30px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-        }
-
-        .page-title h2 {
-            color: #8B4513;
-            font-size: 24px;
-        }
-
-        .btn-novo {
-            background-color: #28a745;
-            color: white;
-            padding: 10px 20px;
-            text-decoration: none;
-            border-radius: 5px;
-            font-weight: bold;
-            transition: background-color 0.3s;
-        }
-
-        .btn-novo:hover {
-            background-color: #218838;
-        }
-
-        table {
-            width: 100%;
-            background: white;
-            border-collapse: collapse;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-            border-radius: 5px;
-            overflow: hidden;
-        }
-
-        table thead {
-            background-color: #D2B48C;
-            color: #333;
-            font-weight: bold;
-        }
-
-        table td, table th {
-            padding: 15px;
-            text-align: left;
-            border-bottom: 1px solid #ddd;
-        }
-
-        table tbody tr:hover {
-            background-color: #f9f9f9;
-        }
-
-        table tbody td:last-child {
-            border-bottom: none;
-        }
-
-        .btn-editar, .btn-deletar {
-            padding: 5px 10px;
-            text-decoration: none;
-            border-radius: 3px;
-            font-size: 12px;
-            margin-right: 5px;
-            display: inline-block;
-        }
-
-        .btn-editar {
-            background-color: #007bff;
-            color: white;
-        }
-
-        .btn-editar:hover {
-            background-color: #0056b3;
-        }
-
-        .btn-deletar {
-            background-color: #dc3545;
-            color: white;
-        }
-
-        .btn-deletar:hover {
-            background-color: #c82333;
-        }
-
-        .empty-state {
-            background: white;
-            padding: 40px;
-            text-align: center;
-            border-radius: 10px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-        }
-
-        .empty-state p {
-            color: #999;
-            font-size: 16px;
-            margin-bottom: 20px;
-        }
-
-        .status-validade {
-            padding: 5px 10px;
-            border-radius: 3px;
-            font-size: 12px;
-            font-weight: bold;
-        }
-
-        .status-ok {
-            background-color: #d4edda;
-            color: #155724;
-        }
-
-        .status-critico {
-            background-color: #f8d7da;
-            color: #721c24;
-        }
-
-        footer {
-            background-color: #333;
-            color: white;
-            text-align: center;
-            padding: 20px;
-            margin-top: 50px;
-        }
-    </style>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Café Aroma & Sabor — Produtos</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com"/>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+    <link rel="stylesheet" th:href="@{/css/almoxarifado.css}"/>
 </head>
 <body>
-    <header>
-        <div class="container">
-            <h1>☕ CafeAromaESabor</h1>
-            <nav>
-                <a href="/home">Home</a>
-                <a href="/produto">Produtos</a>
-                <a href="/estoque">Estoque</a>
-                <a href="/logout">Sair</a>
-            </nav>
+
+<div id="page-app" class="page active" style="display:flex;">
+
+    <nav class="sidebar">
+        <div class="sidebar-brand">
+            <div class="s-bean"></div>
+            <h2>Aroma & Sabor</h2>
+            <span>Almoxarifado</span>
         </div>
-    </header>
+        <div class="sidebar-nav">
+            <div class="nav-section">Principal</div>
+            <a class="nav-link" th:href="@{/home}"><span class="nav-icon">⬡</span> Dashboard</a>
+            <div class="nav-section">Módulos</div>
+            <a class="nav-link active" th:href="@{/produto}"><span class="nav-icon">⊞</span> Cadastro de Produto</a>
+            <a class="nav-link" th:href="@{/estoque}"><span class="nav-icon">◫</span> Gestão de Estoque</a>
+        </div>
+        <div class="sidebar-footer">
+            <a class="nav-link" th:href="@{/logout}" style="color:rgba(245,237,224,.5);"><span class="nav-icon">↩</span> Sair</a>
+        </div>
+    </nav>
 
-    <main>
-        <div class="container">
-            <div class="page-title">
-                <h2>📦 Gestão de Produtos</h2>
-                <a href="/produto/novo" class="btn-novo">+ Novo Produto</a>
+    <div class="main-content">
+        <div class="topbar">
+            <div class="topbar-title">Cadastro de Produto</div>
+            <div class="topbar-actions">
+                <a class="btn btn-primary" th:href="@{/produto/novo}">＋ Novo Produto</a>
             </div>
+        </div>
+        <div class="content-area">
 
-            <!-- Tabela de Produtos -->
-            <table th:if="${produtos != null and produtos.size() > 0}">
-                <thead>
+            <div class="table-card">
+                <div class="table-toolbar">
+                    <form method="GET" th:action="@{/produto}" style="display:flex;gap:12px;flex:1;">
+                        <div class="search-wrap">
+                            <span class="search-icon">🔍</span>
+                            <input type="text" name="busca" placeholder="Buscar por nome do produto…" th:value="${busca}"/>
+                        </div>
+                        <button type="submit" class="btn btn-secondary">Buscar</button>
+                    </form>
+                </div>
+
+                <!-- Tabela com dados reais do banco -->
+                <table th:if="${produtos != null and !produtos.empty}">
+                    <thead>
                     <tr>
-                        <th>ID</th>
-                        <th>Nome</th>
+                        <th>Produto</th>
                         <th>Lote</th>
-                        <th>Data de Validade</th>
-                        <th>Quantidade Atual</th>
-                        <th>Estoque Mínimo</th>
+                        <th>Validade</th>
+                        <th>Qtd. Atual</th>
+                        <th>Mínimo</th>
                         <th>Status</th>
                         <th>Ações</th>
                     </tr>
-                </thead>
-                <tbody>
+                    </thead>
+                    <tbody>
                     <tr th:each="produto : ${produtos}">
-                        <td th:text="${produto.id}">1</td>
-                        <td th:text="${produto.nome}">Café Premium</td>
-                        <td th:text="${produto.lote}">LOTE-001</td>
-                        <td th:text="${#temporals.format(produto.dataValidade, 'dd/MM/yyyy')}">01/01/2025</td>
-                        <td th:text="${produto.quantidadeAtual}">50</td>
-                        <td th:text="${produto.estoqueMinimo}">20</td>
+                        <td><strong th:text="${produto.nome}">—</strong></td>
+                        <td th:text="${produto.lote}">—</td>
+                        <td th:text="${produto.dataValidade != null ? #temporals.format(produto.dataValidade,'dd/MM/yyyy') : '—'}">—</td>
+                        <td th:text="${produto.quantidadeAtual}">0</td>
+                        <td th:text="${produto.estoqueMinimo}">0</td>
                         <td>
-                            <span th:if="${produto.quantidadeAtual >= produto.estoqueMinimo}"
-                                  class="status-validade status-ok">OK</span>
-                            <span th:if="${produto.quantidadeAtual < produto.estoqueMinimo}"
-                                  class="status-validade status-critico">CRÍTICO</span>
+                <span th:if="${produto.quantidadeAtual >= produto.estoqueMinimo}">
+                  <span class="status-dot dot-ok"></span>OK
+                </span>
+                            <span th:if="${produto.quantidadeAtual < produto.estoqueMinimo}">
+                  <span class="status-dot dot-danger"></span>Crítico
+                </span>
                         </td>
                         <td>
-                            <a href="#" class="btn-editar">Editar</a>
-                            <a href="#" class="btn-deletar">Deletar</a>
+                            <div class="action-btns">
+                                <button class="btn-icon btn-del" title="Excluir">🗑</button>
+                            </div>
                         </td>
                     </tr>
-                </tbody>
-            </table>
+                    </tbody>
+                </table>
 
-            <!-- Estado Vazio -->
-            <div th:if="${produtos == null or produtos.size() == 0}" class="empty-state">
-                <p>Nenhum produto cadastrado ainda. Clique no botão "Novo Produto" para começar!</p>
-                <a href="/produto/novo" class="btn-novo">+ Novo Produto</a>
+                <div th:if="${produtos == null or produtos.empty}"
+                     style="padding:40px;text-align:center;color:var(--muted);">
+                    Nenhum produto cadastrado ainda.
+                </div>
             </div>
-        </div>
-    </main>
 
-    <footer>
-        <p>&copy; 2026 CafeAromaESabor - Sistema de Gestão de Estoque | Desenvolvido com ☕ por SENAI</p>
-    </footer>
+        </div>
+    </div>
+</div>
+
 </body>
 </html>
-

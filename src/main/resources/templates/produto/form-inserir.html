@@ -1,264 +1,93 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cadastro de Produto - CafeAromaESabor</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Arial', sans-serif;
-            background-color: #f5f5f5;
-        }
-
-        header {
-            background-color: #8B4513;
-            color: white;
-            padding: 20px 0;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
-
-        header h1 {
-            font-size: 28px;
-            margin-bottom: 10px;
-        }
-
-        nav {
-            display: flex;
-            gap: 30px;
-            margin-top: 20px;
-            flex-wrap: wrap;
-        }
-
-        nav a {
-            color: white;
-            text-decoration: none;
-            font-weight: bold;
-            padding: 10px 15px;
-            border-radius: 5px;
-            transition: background-color 0.3s;
-        }
-
-        nav a:hover {
-            background-color: rgba(255, 255, 255, 0.2);
-        }
-
-        main {
-            padding: 40px 0;
-        }
-
-        .form-container {
-            background: white;
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            max-width: 600px;
-            margin: 0 auto;
-        }
-
-        .form-container h2 {
-            color: #8B4513;
-            margin-bottom: 30px;
-            font-size: 24px;
-        }
-
-        .form-group {
-            margin-bottom: 20px;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 8px;
-            color: #333;
-            font-weight: bold;
-            font-size: 14px;
-        }
-
-        .form-group input,
-        .form-group textarea,
-        .form-group select {
-            width: 100%;
-            padding: 12px;
-            border: 2px solid #ddd;
-            border-radius: 5px;
-            font-size: 14px;
-            font-family: Arial, sans-serif;
-            transition: border-color 0.3s;
-        }
-
-        .form-group input:focus,
-        .form-group textarea:focus,
-        .form-group select:focus {
-            outline: none;
-            border-color: #8B4513;
-        }
-
-        .form-group textarea {
-            resize: vertical;
-            min-height: 100px;
-        }
-
-        .form-row {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
-        }
-
-        @media (max-width: 600px) {
-            .form-row {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        .form-actions {
-            display: flex;
-            gap: 15px;
-            margin-top: 30px;
-        }
-
-        .btn-submit,
-        .btn-cancel {
-            flex: 1;
-            padding: 12px;
-            border: none;
-            border-radius: 5px;
-            font-size: 16px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-
-        .btn-submit {
-            background-color: #28a745;
-            color: white;
-        }
-
-        .btn-submit:hover {
-            background-color: #218838;
-        }
-
-        .btn-cancel {
-            background-color: #6c757d;
-            color: white;
-        }
-
-        .btn-cancel:hover {
-            background-color: #5a6268;
-        }
-
-        .error-message {
-            background-color: #f8d7da;
-            color: #721c24;
-            padding: 12px;
-            border-radius: 5px;
-            margin-bottom: 20px;
-            border: 1px solid #f5c6cb;
-        }
-
-        .success-message {
-            background-color: #d4edda;
-            color: #155724;
-            padding: 12px;
-            border-radius: 5px;
-            margin-bottom: 20px;
-            border: 1px solid #c3e6cb;
-        }
-
-        footer {
-            background-color: #333;
-            color: white;
-            text-align: center;
-            padding: 20px;
-            margin-top: 50px;
-        }
-    </style>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Café Aroma & Sabor — Novo Produto</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com"/>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+    <link rel="stylesheet" th:href="@{/css/almoxarifado.css}"/>
 </head>
 <body>
-    <header>
-        <div class="container">
-            <h1>☕ CafeAromaESabor</h1>
-            <nav>
-                <a href="/home">Home</a>
-                <a href="/produto">Produtos</a>
-                <a href="/estoque">Estoque</a>
-                <a href="/logout">Sair</a>
-            </nav>
+
+<div id="page-app" class="page active" style="display:flex;">
+
+    <nav class="sidebar">
+        <div class="sidebar-brand">
+            <div class="s-bean"></div>
+            <h2>Aroma & Sabor</h2>
+            <span>Almoxarifado</span>
         </div>
-    </header>
+        <div class="sidebar-nav">
+            <div class="nav-section">Principal</div>
+            <a class="nav-link" th:href="@{/home}"><span class="nav-icon">⬡</span> Dashboard</a>
+            <div class="nav-section">Módulos</div>
+            <a class="nav-link active" th:href="@{/produto}"><span class="nav-icon">⊞</span> Cadastro de Produto</a>
+            <a class="nav-link" th:href="@{/estoque}"><span class="nav-icon">◫</span> Gestão de Estoque</a>
+        </div>
+        <div class="sidebar-footer">
+            <a class="nav-link" th:href="@{/logout}" style="color:rgba(245,237,224,.5);"><span class="nav-icon">↩</span> Sair</a>
+        </div>
+    </nav>
 
-    <main>
-        <div class="container">
-            <div class="form-container">
-                <h2>➕ Novo Produto</h2>
+    <div class="main-content">
+        <div class="topbar">
+            <div class="topbar-title">Novo Produto</div>
+        </div>
+        <div class="content-area">
 
-                <!-- Mensagem de Sucesso -->
-                <div th:if="${sucesso}" class="success-message">
-                    <p th:text="${sucesso}"></p>
+            <!-- Mensagem de erro -->
+            <div th:if="${erro}" style="
+        background:rgba(184,50,50,.1); color:#b83232;
+        border:1.5px solid rgba(184,50,50,.3);
+        border-radius:10px; padding:12px 16px;
+        font-size:.85rem; margin-bottom:18px;">
+                <span th:text="${erro}"></span>
+            </div>
+
+            <div class="form-card">
+                <div class="section-title" style="margin-bottom:20px;">
+                    Novo Produto <div class="line"></div>
                 </div>
 
-                <!-- Mensagem de Erro -->
-                <div th:if="${erro}" class="error-message">
-                    <p th:text="${erro}"></p>
-                </div>
-
-                <form method="POST" action="/produto">
-                    <div class="form-group">
-                        <label for="nome">Nome do Produto:</label>
-                        <input type="text" id="nome" name="nome" required placeholder="Ex: Café Premium Arábica">
-                    </div>
-
-                    <div class="form-group">
-                        <label for="descricao">Descrição:</label>
-                        <textarea id="descricao" name="descricao" placeholder="Digite a descrição do produto..."></textarea>
-                    </div>
-
-                    <div class="form-row">
+                <!-- POST para /produto — campos com name= compatíveis com ProdutoController -->
+                <form method="POST" th:action="@{/produto}">
+                    <div class="form-grid">
                         <div class="form-group">
-                            <label for="lote">Número do Lote:</label>
-                            <input type="text" id="lote" name="lote" required placeholder="Ex: LOTE-001">
+                            <label>Nome do Produto *</label>
+                            <input type="text" name="nome" placeholder="Ex.: Café Grão Especial 1 kg" required/>
                         </div>
-
                         <div class="form-group">
-                            <label for="dataValidade">Data de Validade:</label>
-                            <input type="date" id="dataValidade" name="dataValidade" required>
+                            <label>Número do Lote *</label>
+                            <input type="text" name="lote" placeholder="Ex.: CG-2024-01" required/>
                         </div>
-                    </div>
-
-                    <div class="form-row">
                         <div class="form-group">
-                            <label for="quantidadeAtual">Quantidade Atual:</label>
-                            <input type="number" id="quantidadeAtual" name="quantidadeAtual" required min="0" placeholder="0">
+                            <label>Data de Validade *</label>
+                            <input type="date" name="dataValidade" required/>
                         </div>
-
                         <div class="form-group">
-                            <label for="estoqueMinimo">Estoque Mínimo:</label>
-                            <input type="number" id="estoqueMinimo" name="estoqueMinimo" required min="1" placeholder="20">
+                            <label>Quantidade Atual *</label>
+                            <input type="number" name="quantidadeAtual" placeholder="0" min="0" required/>
+                        </div>
+                        <div class="form-group">
+                            <label>Estoque Mínimo *</label>
+                            <input type="number" name="estoqueMinimo" placeholder="0" min="1" required/>
+                        </div>
+                        <div class="form-group span-2">
+                            <label>Descrição</label>
+                            <textarea name="descricao" rows="3" placeholder="Informações adicionais…"></textarea>
                         </div>
                     </div>
-
                     <div class="form-actions">
-                        <button type="submit" class="btn-submit">💾 Salvar Produto</button>
-                        <a href="/produto" class="btn-cancel" style="display: flex; align-items: center; justify-content: center; text-decoration: none;">❌ Cancelar</a>
+                        <a th:href="@{/produto}" class="btn btn-secondary">Cancelar</a>
+                        <button type="submit" class="btn btn-primary">＋ Adicionar Produto</button>
                     </div>
                 </form>
             </div>
-        </div>
-    </main>
 
-    <footer>
-        <p>&copy; 2026 CafeAromaESabor - Sistema de Gestão de Estoque | Desenvolvido com ☕ por SENAI</p>
-    </footer>
+        </div>
+    </div>
+</div>
+
 </body>
 </html>
-
