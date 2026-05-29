@@ -10,10 +10,6 @@ import lombok.EqualsAndHashCode;
 
 import java.util.List;
 
-/**
- * Modelo de Usuario para autenticação no sistema
- * Representa um usuário com permissões de acesso ao CafeAromaESabor
- */
 @Entity
 @Table(name = "usuario")
 @Data
@@ -37,9 +33,9 @@ public class Usuario {
     @Column(nullable = false)
     private String senha;
 
+    // Relacionamento bidirecional com Movimentacao
     @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
     private List<Movimentacao> movimentacoes;
 }
-

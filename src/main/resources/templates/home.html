@@ -14,7 +14,6 @@
 
 <div id="page-app" class="page active" style="display:flex;">
 
-    <!-- SIDEBAR -->
     <nav class="sidebar">
         <div class="sidebar-brand">
             <div class="s-bean"></div>
@@ -35,17 +34,14 @@
             </a>
         </div>
         <div class="sidebar-footer">
-            <!-- Informações do usuário autenticado via Spring Security -->
-            <div class="user-info">
-                <div class="avatar" th:text="${nomeUsuario != null ? nomeUsuario.substring(0, 2).toUpperCase() : 'US'}">US</div>
+            <div class="user-info" th:if="${#authentication != null}">
+                <div class="avatar" th:text="${#strings.toUpperCase(#strings.substring(#authentication.name, 0, 2))}">US</div>
                 <div class="user-details">
-                    <div class="user-name" th:text="${usuarioAutenticado != null ? usuarioAutenticado : 'Usuário'}">Usuário</div>
+                    <div class="user-name" th:text="${#authentication.name}">usuario@cafe.com</div>
                     <div class="user-role">Logado</div>
                 </div>
             </div>
-            <!-- Formulário de Logout Seguro com POST (Spring Security) -->
-            <!-- O logout via POST é mais seguro que GET -->
-            <!-- th:action="@{/logout}" gera a URL correta -->
+
             <form method="POST" th:action="@{/logout}" style="display: inline;">
                 <button type="submit" class="nav-link" style="
                     background: none;
@@ -63,14 +59,12 @@
         </div>
     </nav>
 
-    <!-- MAIN -->
     <div class="main-content">
         <div class="topbar">
             <div class="topbar-title">Dashboard</div>
         </div>
         <div class="content-area">
 
-            <!-- KPI CARDS — valores vêm do HomeController via Model -->
             <div class="kpi-grid">
                 <div class="kpi-card">
                     <div class="kpi-label">Total de Produtos</div>
@@ -79,7 +73,7 @@
                 </div>
                 <div class="kpi-card alert-card">
                     <div class="kpi-label">Estoque Mínimo ⚠</div>
-                    <div class="kpi-value" th:text="${productosCriticos != null ? productosCriticos : 0}">0</div>
+                    <div class="kpi-value" th:text="${produtosCriticos != null ? produtosCriticos : 0}">0</div>
                     <div class="kpi-sub">produtos abaixo do limite</div>
                 </div>
                 <div class="kpi-card">

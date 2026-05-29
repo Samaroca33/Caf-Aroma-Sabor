@@ -10,10 +10,6 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
-/**
- * Modelo de Movimentacao para rastreamento de entrada/saída de produtos
- * Registra todas as movimentações de estoque com data, hora, usuário e motivo
- */
 @Entity
 @Table(name = "movimentacao")
 @Data
@@ -41,17 +37,15 @@ public class Movimentacao {
     @Column(nullable = false, columnDefinition = "TEXT")
     private String motivo;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "produto_id", nullable = false)
     private Produto produto;
 
-    @ManyToOne
+    // Cascade MERGE garante estabilidade ao persistir instâncias de teste temporárias
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
     @JoinColumn(name = "usuario_id", nullable = false)
     private Usuario usuario;
 
-    /**
-     * Enum para tipos de movimentação
-     */
     public enum TipoMovimentacao {
         ENTRADA("Entrada de Estoque"),
         SAIDA("Saída de Estoque");
@@ -69,7 +63,6 @@ public class Movimentacao {
 
     @PrePersist
     protected void onCreate() {
-        dataHora = LocalDateTime.now();
+        this.dataHora = LocalDateTime.now();
     }
 }
-
