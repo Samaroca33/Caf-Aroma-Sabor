@@ -6,8 +6,11 @@ import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
+import lombok.EqualsAndHashCode;
 
 import java.time.LocalDate;
+import java.util.List;
 
 /**
  * Modelo de Produto para gestão de café
@@ -45,5 +48,10 @@ public class Produto {
     @Min(value = 0, message = "Quantidade atual não pode ser negativa")
     @Column(nullable = false)
     private Integer quantidadeAtual;
+
+    @OneToMany(mappedBy = "produto", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
+    private List<Movimentacao> movimentacoes;
 }
 

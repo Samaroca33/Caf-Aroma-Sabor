@@ -52,35 +52,40 @@
 
                 <!-- POST para /produto — campos com name= compatíveis com ProdutoController -->
                 <form method="POST" th:action="@{/produto}">
+                    <input type="hidden" name="id" th:value="${produto.id}"/>
                     <div class="form-grid">
                         <div class="form-group">
                             <label>Nome do Produto *</label>
-                            <input type="text" name="nome" placeholder="Ex.: Café Grão Especial 1 kg" required/>
+                            <input type="text" name="nome" placeholder="Ex.: Café Grão Especial 1 kg" th:value="${produto.nome}"
+                                   required/>
                         </div>
                         <div class="form-group">
                             <label>Número do Lote *</label>
-                            <input type="text" name="lote" placeholder="Ex.: CG-2024-01" required/>
+                            <input type="text" name="lote" placeholder="Ex.: CG-2024-01" th:value="${produto.lote}"
+                                   required/>
                         </div>
                         <div class="form-group">
                             <label>Data de Validade *</label>
-                            <input type="date" name="dataValidade" required/>
+                            <input type="date" name="dataValidade" th:value="${produto.dataValidade}" required/>
                         </div>
                         <div class="form-group">
                             <label>Quantidade Atual *</label>
-                            <input type="number" name="quantidadeAtual" placeholder="0" min="0" required/>
+                            <input type="number" name="quantidadeAtual" placeholder="0" min="0" th:value="${produto.quantidadeAtual}"
+                                   required/>
                         </div>
                         <div class="form-group">
                             <label>Estoque Mínimo *</label>
-                            <input type="number" name="estoqueMinimo" placeholder="0" min="1" required/>
+                            <input type="number" name="estoqueMinimo" placeholder="0" min="1" th:value="${produto.estoqueMinimo}"
+                                   required/>
                         </div>
                         <div class="form-group span-2">
                             <label>Descrição</label>
-                            <textarea name="descricao" rows="3" placeholder="Informações adicionais…"></textarea>
+                            <textarea name="descricao" rows="3" placeholder="Informações adicionais…" th:text="${produto.descricao}"></textarea>
                         </div>
                     </div>
                     <div class="form-actions">
                         <a th:href="@{/produto}" class="btn btn-secondary">Cancelar</a>
-                        <button type="submit" class="btn btn-primary">＋ Adicionar Produto</button>
+                        <button type="submit" class="btn btn-primary" th:text="${produto.id} != null ? 'Salvar alterações' : '＋ Adicionar Produto'">＋ Adicionar Produto</button>
                     </div>
                 </form>
             </div>

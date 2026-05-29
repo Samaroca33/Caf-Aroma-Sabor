@@ -18,7 +18,16 @@
             <p>Sistema de Almoxarifado</p>
         </div>
 
-        <!-- Mensagem de erro vinda do LoginController -->
+        <!-- Mensagem de erro de autenticação (Spring Security) -->
+        <div th:if="${param.error}" class="error-message" style="
+      background:rgba(184,50,50,.1); color:#b83232;
+      border:1.5px solid rgba(184,50,50,.3);
+      border-radius:10px; padding:12px 16px;
+      font-size:.85rem; margin-bottom:18px;">
+            <span>Usuário ou senha inválidos! Tente novamente.</span>
+        </div>
+
+        <!-- Mensagem de erro customizada -->
         <div th:if="${erro}" class="error-message" style="
       background:rgba(184,50,50,.1); color:#b83232;
       border:1.5px solid rgba(184,50,50,.3);
@@ -27,17 +36,37 @@
             <span th:text="${erro}"></span>
         </div>
 
-        <form method="POST" action="/login">
+        <!-- Mensagem de logout bem-sucedido -->
+        <div th:if="${param.logout}" class="success-message" style="
+      background:rgba(76,175,80,.1); color:#4caf50;
+      border:1.5px solid rgba(76,175,80,.3);
+      border-radius:10px; padding:12px 16px;
+      font-size:.85rem; margin-bottom:18px;">
+            <span>Você foi desconectado com sucesso. Até logo!</span>
+        </div>
+
+        <!-- Formulário de Login com Spring Security -->
+        <!-- th:action="@{/login}" - URL de processamento do formulário -->
+        <!-- name="username" - Campo de usuário esperado pelo Spring Security -->
+        <!-- name="password" - Campo de senha esperado pelo Spring Security -->
+        <form method="POST" th:action="@{/login}">
             <div class="form-group">
                 <label>Usuário</label>
-                <input type="text" name="login" placeholder="Digite seu usuário" autocomplete="username" required/>
+                <input type="text" name="username" placeholder="admin@cafe.com ou user@cafe.com" autocomplete="username" required/>
             </div>
             <div class="form-group">
                 <label>Senha</label>
-                <input type="password" name="senha" placeholder="••••••••" autocomplete="current-password" required/>
+                <input type="password" name="password" placeholder="••••••••" autocomplete="current-password" required/>
             </div>
             <button type="submit" class="btn btn-primary btn-full">Acessar o sistema</button>
         </form>
+
+        <!-- Dica de credenciais para teste -->
+        <div style="margin-top: 24px; padding-top: 24px; border-top: 1px solid rgba(245,237,224,.1); font-size: 0.8rem; color: rgba(245,237,224,.6); text-align: center;">
+            <p><strong>Credenciais de Teste:</strong></p>
+            <p><strong>Admin:</strong> admin@cafe.com / admin123</p>
+            <p><strong>User:</strong> user@cafe.com / user123</p>
+        </div>
     </div>
 </div>
 

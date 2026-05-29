@@ -94,7 +94,11 @@ public class EstoqueController {
             Usuario usuario = (Usuario) session.getAttribute("usuarioLogado");
             if (usuario == null) {
                 // Usar usuário padrão para teste
-                usuario = new Usuario(1L, "Sistema", "sistema", "sistema");
+                usuario = new Usuario();
+                usuario.setId(1L);
+                usuario.setNome("Sistema");
+                usuario.setLogin("sistema");
+                usuario.setSenha("sistema");
             }
 
             // Criar movimentação
@@ -166,7 +170,11 @@ public class EstoqueController {
             Usuario usuario = (Usuario) session.getAttribute("usuarioLogado");
             if (usuario == null) {
                 // Usar usuário padrão para teste
-                usuario = new Usuario(1L, "Sistema", "sistema", "sistema");
+                usuario = new Usuario();
+                usuario.setId(1L);
+                usuario.setNome("Sistema");
+                usuario.setLogin("sistema");
+                usuario.setSenha("sistema");
             }
 
             // Criar movimentação

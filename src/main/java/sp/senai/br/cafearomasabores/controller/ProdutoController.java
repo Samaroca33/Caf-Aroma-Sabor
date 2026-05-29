@@ -82,6 +82,7 @@ public class ProdutoController {
      */
     @PostMapping
     public String salvar(
+            @RequestParam(required = false) Long id,
             @RequestParam String nome,
             @RequestParam(required = false) String descricao,
             @RequestParam String lote,
@@ -112,8 +113,14 @@ public class ProdutoController {
                 return "produto/form-inserir";
             }
 
-            // Criar e salvar produto
-            Produto produto = new Produto();
+            // Se id informado, atualizar produto existente, caso contrário criar novo
+            Produto produto;
+            if (id != null) {
+                produto = produtoRepository.findById(id)
+                        .orElse(new Produto());
+            } else {
+                produto = new Produto();
+            }
             produto.setNome(nome);
             produto.setDescricao(descricao);
             produto.setLote(lote);
@@ -129,6 +136,29 @@ public class ProdutoController {
             return "produto/form-inserir";
         }
     }
+
+    /**
+     * Retorna o formulário para editar um produto existente
+     * GET /produto/editar/{id}
+     */
+    @GetMapping("/editar/{id}")
+    public String editar(@org.springframework.web.bind.annotation.PathVariable Long id, Model model) {
+        Produto produto = produtoRepository.findById(id).orElse(new Produto());
+        model.addAttribute("produto", produto);
+        return "produto/form-inserir";
+    }
+
+    /**
+     * Exclui um produto pelo id
+     * POST /produto/{id}/excluir
+     */
+    @PostMapping("/{id}/excluir")
+    public String excluir(@org.springframework.web.bind.annotation.PathVariable Long id, Model model) {
+        try {
+            produtoRepository.deleteById(id);
+        } catch (Exception e) {
+            model.addAttribute("erro", "Erro ao excluir produto: " + e.getMessage());
+        }
+        return "redirect:/produto";
+    }
 }
-
-

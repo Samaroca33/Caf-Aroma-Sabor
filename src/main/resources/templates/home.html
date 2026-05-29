@@ -1,5 +1,7 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="pt-BR">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      lang="pt-BR">
 <head>
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
@@ -33,16 +35,31 @@
             </a>
         </div>
         <div class="sidebar-footer">
+            <!-- Informações do usuário autenticado via Spring Security -->
             <div class="user-info">
-                <div class="avatar">AD</div>
+                <div class="avatar" th:text="${nomeUsuario != null ? nomeUsuario.substring(0, 2).toUpperCase() : 'US'}">US</div>
                 <div class="user-details">
-                    <div class="user-name">Administrador</div>
-                    <div class="user-role">Almoxarife</div>
+                    <div class="user-name" th:text="${usuarioAutenticado != null ? usuarioAutenticado : 'Usuário'}">Usuário</div>
+                    <div class="user-role">Logado</div>
                 </div>
             </div>
-            <a class="nav-link" th:href="@{/logout}" style="color:rgba(245,237,224,.5);">
-                <span class="nav-icon">↩</span> Sair
-            </a>
+            <!-- Formulário de Logout Seguro com POST (Spring Security) -->
+            <!-- O logout via POST é mais seguro que GET -->
+            <!-- th:action="@{/logout}" gera a URL correta -->
+            <form method="POST" th:action="@{/logout}" style="display: inline;">
+                <button type="submit" class="nav-link" style="
+                    background: none;
+                    border: none;
+                    color: rgba(245,237,224,.5);
+                    cursor: pointer;
+                    width: 100%;
+                    text-align: left;
+                    padding: 12px 20px;
+                    font-size: 14px;
+                    font-weight: 500;">
+                    <span class="nav-icon">↩</span> Sair
+                </button>
+            </form>
         </div>
     </nav>
 
