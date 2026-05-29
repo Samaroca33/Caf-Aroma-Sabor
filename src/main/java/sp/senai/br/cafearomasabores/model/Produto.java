@@ -12,10 +12,6 @@ import lombok.EqualsAndHashCode;
 import java.time.LocalDate;
 import java.util.List;
 
-/**
- * Modelo de Produto para gestão de café
- * Armazena informações sobre lote, validade, estoque e quantidade atual
- */
 @Entity
 @Table(name = "produto")
 @Data
@@ -49,9 +45,9 @@ public class Produto {
     @Column(nullable = false)
     private Integer quantidadeAtual;
 
+    // Relacionamento bidirecional com Movimentacao
     @OneToMany(mappedBy = "produto", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
     private List<Movimentacao> movimentacoes;
 }
-
