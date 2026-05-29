@@ -3,96 +3,100 @@
 <head>
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>Café Aroma & Sabor — Novo Produto</title>
+    <title>Aroma & Sabor — Formulário</title>
     <link rel="preconnect" href="https://fonts.googleapis.com"/>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght=500;700&family=DM+Sans:wght=300;400;500;600&display=swap" rel="stylesheet"/>
     <link rel="stylesheet" th:href="@{/css/almoxarifado.css}"/>
 </head>
 <body>
+<div class="container">
 
-<div id="page-app" class="page active" style="display:flex;">
+    <div class="sidebar">
+        <div class="logo">
+            <div class="icon"></div>
+            <h1>Aroma & Sabor</h1>
+            <p>ALMOXARIFADO</p>
+        </div>
 
-    <nav class="sidebar">
-        <div class="sidebar-brand">
-            <div class="s-bean"></div>
-            <h2>Aroma & Sabor</h2>
-            <span>Almoxarifado</span>
+        <div class="menu">
+            <p class="section-title">PRINCIPAL</p>
+            <a th:href="@{/home}" class="menu-item">
+                <i class="icon-dashboard"></i> Dashboard
+            </a>
+
+            <p class="section-title">MÓDULOS</p>
+            <a th:href="@{/produto}" class="menu-item active">
+                <i class="icon-produto"></i> Cadastro de Produto
+            </a>
+            <a th:href="@{/estoque}" class="menu-item">
+                <i class="icon-estoque"></i> Gestão de Estoque
+            </a>
         </div>
-        <div class="sidebar-nav">
-            <div class="nav-section">Principal</div>
-            <a class="nav-link" th:href="@{/home}"><span class="nav-icon">⬡</span> Dashboard</a>
-            <div class="nav-section">Módulos</div>
-            <a class="nav-link active" th:href="@{/produto}"><span class="nav-icon">⊞</span> Cadastro de Produto</a>
-            <a class="nav-link" th:href="@{/estoque}"><span class="nav-icon">◫</span> Gestão de Estoque</a>
-        </div>
+
         <div class="sidebar-footer">
-            <a class="nav-link" th:href="@{/logout}" style="color:rgba(245,237,224,.5);"><span class="nav-icon">↩</span> Sair</a>
+            <div class="user-profile">
+                <div class="avatar">AD</div>
+                <div class="user-info">
+                    <span class="username">admin@cafe.com</span>
+                    <span class="role">Logado</span>
+                </div>
+            </div>
+            <form method="POST" th:action="@{/logout}" id="logoutForm" style="display: block; width: 100%;">
+                <button type="submit" class="logout-btn" style="width: 100%; border: none; background: none; text-align: left; padding: 0; cursor: pointer;">Sair</button>
+            </form>
         </div>
-    </nav>
+    </div>
 
     <div class="main-content">
         <div class="topbar">
-            <div class="topbar-title">Novo Produto</div>
+            <h2 th:text="${produto.id != null} ? 'Editar Produto' : 'Novo Produto'">Novo Produto</h2>
+            <a th:href="@{/produto}" class="btn-secondary">Voltar</a>
         </div>
-        <div class="content-area">
 
-            <!-- Mensagem de erro -->
-            <div th:if="${erro}" style="
-        background:rgba(184,50,50,.1); color:#b83232;
-        border:1.5px solid rgba(184,50,50,.3);
-        border-radius:10px; padding:12px 16px;
-        font-size:.85rem; margin-bottom:18px;">
-                <span th:text="${erro}"></span>
-            </div>
+        <div class="content-body">
 
-            <div class="form-card">
-                <div class="section-title" style="margin-bottom:20px;">
-                    Novo Produto <div class="line"></div>
-                </div>
+            <div class="card-form">
+                <form method="POST" th:action="@{/produto/salvar}">
 
-                <!-- POST para /produto — campos com name= compatíveis com ProdutoController -->
-                <form method="POST" th:action="@{/produto}">
-                    <input type="hidden" name="id" th:value="${produto.id}"/>
-                    <div class="form-grid">
-                        <div class="form-group">
-                            <label>Nome do Produto *</label>
-                            <input type="text" name="nome" placeholder="Ex.: Café Grão Especial 1 kg" th:value="${produto.nome}"
-                                   required/>
+                    <input type="hidden" name="id" th:value="${produto.id}" />
+
+                    <div class="form-group">
+                        <label>NOME DO PRODUTO</label>
+                        <input type="text" name="nome" th:value="${produto.nome}" placeholder="Ex: Café Torrado Tradicional 500g" required/>
+                    </div>
+
+                    <div class="form-group">
+                        <label>DESCRIÇÃO</label>
+                        <textarea name="descricao" th:text="${produto.descricao}" placeholder="Especificações do grão, torra, etc."></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label>NÚMERO DO LOTE</label>
+                        <input type="text" name="lote" th:value="${produto.lote}" placeholder="Ex: L-202605" required/>
+                    </div>
+
+                    <div class="form-group">
+                        <label>DATA DE VALIDADE</label>
+                        <input type="date" name="dataValidade" th:value="${produto.dataValidade}" required/>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group half">
+                            <label>QUANTIDADE INICIAL</label>
+                            <input type="number" name="quantidadeAtual" th:value="${produto.quantidadeAtual != null ? produto.quantidadeAtual : 0}" th:readonly="${produto.id != null}" min="0" required/>
                         </div>
-                        <div class="form-group">
-                            <label>Número do Lote *</label>
-                            <input type="text" name="lote" placeholder="Ex.: CG-2024-01" th:value="${produto.lote}"
-                                   required/>
-                        </div>
-                        <div class="form-group">
-                            <label>Data de Validade *</label>
-                            <input type="date" name="dataValidade" th:value="${produto.dataValidade}" required/>
-                        </div>
-                        <div class="form-group">
-                            <label>Quantidade Atual *</label>
-                            <input type="number" name="quantidadeAtual" placeholder="0" min="0" th:value="${produto.quantidadeAtual}"
-                                   required/>
-                        </div>
-                        <div class="form-group">
-                            <label>Estoque Mínimo *</label>
-                            <input type="number" name="estoqueMinimo" placeholder="0" min="1" th:value="${produto.estoqueMinimo}"
-                                   required/>
-                        </div>
-                        <div class="form-group span-2">
-                            <label>Descrição</label>
-                            <textarea name="descricao" rows="3" placeholder="Informações adicionais…" th:text="${produto.descricao}"></textarea>
+                        <div class="form-group half">
+                            <label>ESTOQUE MÍNIMO</label>
+                            <input type="number" name="estoqueMinimo" th:value="${produto.estoqueMinimo != null ? produto.estoqueMinimo : 1}" min="1" required/>
                         </div>
                     </div>
-                    <div class="form-actions">
-                        <a th:href="@{/produto}" class="btn btn-secondary">Cancelar</a>
-                        <button type="submit" class="btn btn-primary" th:text="${produto.id} != null ? 'Salvar alterações' : '＋ Adicionar Produto'">＋ Adicionar Produto</button>
-                    </div>
+
+                    <button type="submit" class="btn-submit">Salvar Alterações</button>
                 </form>
             </div>
 
         </div>
     </div>
 </div>
-
 </body>
 </html>
