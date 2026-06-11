@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>Café Aroma & Sabor — Estoque</title>
+    <title>Café Aroma &amp; Sabor — Estoque</title>
     <link rel="preconnect" href="https://fonts.googleapis.com"/>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
     <link rel="stylesheet" th:href="@{/css/almoxarifado.css}"/>
@@ -15,7 +15,7 @@
     <nav class="sidebar">
         <div class="sidebar-brand">
             <div class="s-bean"></div>
-            <h2>Aroma & Sabor</h2>
+            <h2>Aroma &amp; Sabor</h2>
             <span>Almoxarifado</span>
         </div>
         <div class="sidebar-nav">
@@ -26,7 +26,14 @@
             <a class="nav-link active" th:href="@{/estoque}"><span class="nav-icon">◫</span> Gestão de Estoque</a>
         </div>
         <div class="sidebar-footer">
-            <a class="nav-link" th:href="@{/logout}" style="color:rgba(245,237,224,.5);"><span class="nav-icon">↩</span> Sair</a>
+            <form method="POST" th:action="@{/logout}" style="display:inline;">
+                <button type="submit" class="nav-link" style="
+                    background:none; border:none; color:rgba(245,237,224,.5);
+                    cursor:pointer; width:100%; text-align:left;
+                    padding:12px 20px; font-size:14px; font-weight:500;">
+                    <span class="nav-icon">↩</span> Sair
+                </button>
+            </form>
         </div>
     </nav>
 
@@ -34,21 +41,21 @@
         <div class="topbar">
             <div class="topbar-title">Gestão de Estoque</div>
         </div>
+
         <div class="content-area">
 
-            <!-- Feedback -->
             <div th:if="${sucesso}" style="
-        background:rgba(45,122,79,.1); color:#2d7a4f;
-        border:1.5px solid rgba(45,122,79,.3);
-        border-radius:10px; padding:12px 16px;
-        font-size:.85rem; margin-bottom:18px;">
+                background:rgba(45,122,79,.1); color:#2d7a4f;
+                border:1.5px solid rgba(45,122,79,.3);
+                border-radius:10px; padding:12px 16px;
+                font-size:.85rem; margin-bottom:18px;">
                 <span th:text="${sucesso}"></span>
             </div>
             <div th:if="${erro}" style="
-        background:rgba(184,50,50,.1); color:#b83232;
-        border:1.5px solid rgba(184,50,50,.3);
-        border-radius:10px; padding:12px 16px;
-        font-size:.85rem; margin-bottom:18px;">
+                background:rgba(184,50,50,.1); color:#b83232;
+                border:1.5px solid rgba(184,50,50,.3);
+                border-radius:10px; padding:12px 16px;
+                font-size:.85rem; margin-bottom:18px;">
                 <span th:text="${erro}"></span>
             </div>
 
@@ -76,25 +83,29 @@
                                 <td th:text="${p.estoqueMinimo}">0</td>
                                 <td th:text="${p.dataValidade != null ? #temporals.format(p.dataValidade,'dd/MM/yyyy') : '—'}">—</td>
                                 <td>
-                    <span th:if="${p.quantidadeAtual >= p.estoqueMinimo}">
-                      <span class="status-dot dot-ok"></span>OK
-                    </span>
+                                    <span th:if="${p.quantidadeAtual >= p.estoqueMinimo}">
+                                        <span class="status-dot dot-ok"></span>OK
+                                    </span>
                                     <span th:if="${p.quantidadeAtual < p.estoqueMinimo}">
-                      <span class="status-dot dot-danger"></span>Crítico
-                    </span>
+                                        <span class="status-dot dot-danger"></span>Crítico
+                                    </span>
                                 </td>
                             </tr>
                             </tbody>
                         </table>
+                        <div th:if="${produtos == null or produtos.empty}"
+                             style="padding:32px; text-align:center; color:var(--muted); font-size:.875rem;">
+                            Nenhum produto cadastrado.
+                        </div>
                     </div>
 
-                    <!-- Log de Rastreabilidade com dados reais -->
+                    <!-- Log de Rastreabilidade -->
                     <div class="log-card">
                         <div class="log-header"><h4>📋 Log de Rastreabilidade</h4></div>
                         <div class="log-body">
                             <div th:each="mov : ${movimentacoes}" class="log-line">
-                <span class="log-time"
-                      th:text="${#temporals.format(mov.dataHora,'dd/MM HH:mm')}">00/00</span>
+                                <span class="log-time"
+                                      th:text="${#temporals.format(mov.dataHora,'dd/MM HH:mm')}">00/00</span>
                                 <span class="log-user" th:text="${mov.usuario.nome}">—</span>
                                 <span class="log-event"
                                       th:text="${mov.tipo.name() + ' ' + mov.quantidade + ' ' + mov.produto.nome}">—</span>
@@ -115,8 +126,8 @@
 
                         <!-- Entrada -->
                         <div style="margin-bottom:24px;">
-                            <div style="font-size:.75rem;font-weight:700;color:var(--green-ok);
-                          text-transform:uppercase;letter-spacing:.08em;margin-bottom:12px;">
+                            <div style="font-size:.75rem; font-weight:700; color:var(--green-ok);
+                                        text-transform:uppercase; letter-spacing:.08em; margin-bottom:12px;">
                                 ⬆ Entrada de Estoque
                             </div>
                             <form method="POST" th:action="@{/estoque/entrada}">
@@ -135,19 +146,20 @@
                                 </div>
                                 <div class="form-group">
                                     <label>Motivo *</label>
-                                    <textarea name="motivo" rows="2" placeholder="Ex.: Compra ao fornecedor…" required></textarea>
+                                    <textarea name="motivo" rows="2"
+                                              placeholder="Ex.: Compra ao fornecedor…" required></textarea>
                                 </div>
                                 <button type="submit" class="btn btn-primary btn-full"
                                         style="background:var(--green-ok);">Confirmar Entrada</button>
                             </form>
                         </div>
 
-                        <hr style="border:none;border-top:1.5px solid var(--border);margin:20px 0;"/>
+                        <hr style="border:none; border-top:1.5px solid var(--border); margin:20px 0;"/>
 
                         <!-- Saída -->
                         <div>
-                            <div style="font-size:.75rem;font-weight:700;color:var(--red-alert);
-                          text-transform:uppercase;letter-spacing:.08em;margin-bottom:12px;">
+                            <div style="font-size:.75rem; font-weight:700; color:var(--red-alert);
+                                        text-transform:uppercase; letter-spacing:.08em; margin-bottom:12px;">
                                 ⬇ Saída de Estoque
                             </div>
                             <form method="POST" th:action="@{/estoque/saida}">
@@ -166,7 +178,8 @@
                                 </div>
                                 <div class="form-group">
                                     <label>Motivo *</label>
-                                    <textarea name="motivo" rows="2" placeholder="Ex.: Venda, avaria…" required></textarea>
+                                    <textarea name="motivo" rows="2"
+                                              placeholder="Ex.: Venda, avaria…" required></textarea>
                                 </div>
                                 <button type="submit" class="btn btn-primary btn-full"
                                         style="background:var(--red-alert);">Confirmar Saída</button>
